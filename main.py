@@ -1,4 +1,5 @@
 import os
+import gzip
 import pickle
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -28,7 +29,8 @@ class ModelInput(BaseModel):
     rainfall: float
 
 # Load the model from a pickle file
-model = pickle.load(open("model1.pkl", "rb"))
+with gzip.open('model1.pkl.gz', 'rb') as f:
+    model = pickle.load(f)
 
 # Prediction endpoint
 @app.post('/predict')
